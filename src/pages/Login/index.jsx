@@ -2,10 +2,9 @@ import { useEffect, useState } from "react"
 import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "firebase/auth"
 import { auth, signInWithGoogle } from "../../firebase-config"
 
-
 function Login() {
-
      
+
     const [formData, setFormData] = useState({
         email: '',
         password: '',

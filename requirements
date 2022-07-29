@@ -1,0 +1,36 @@
+- dashboard
+    - tickets por prioridade
+    - por tipo
+
+- projeto (coleção de tickets)
+    - tickets
+    - description and project name
+
+    - ticket
+        - title
+        - description
+        - project
+        - priority
+        - status
+        - type
+            - bug/errors
+            - feature requests
+            - training/document requests
+            - other comments
+        - created
+        - updated
+        - notes
+            - message
+            - created
+        - history
+            - property
+            - old value
+            - new value
+            - user that changed it
+        - attatchements (not critical)
+            - file
+            - uploader
+            - notes
+            - created
+
+- filter both projects and tickets
