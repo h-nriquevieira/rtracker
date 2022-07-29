@@ -1,47 +1,26 @@
 import { useEffect, useState } from "react"
 import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "firebase/auth"
 import { auth, signInWithGoogle } from "../../firebase-config"
+import { useAuth } from "../../contexts/AuthContext"
 
 function Login() {
      
-
     const [formData, setFormData] = useState({
         email: '',
         password: '',
         mode: 'login'
     })
 
-    const [user, setUser] = useState({})
-
-    useEffect(() => {
-        onAuthStateChanged(auth, (currentUser) => {
-        setUser(currentUser)
-        })
-    }, [])
-    
+    const appAuth = useAuth()
+    const {
+        user,
+        registerUser,
+        login,
+        logout
+    } = appAuth
 
     function handleChange(e, prop) {
         setFormData(prevFormData => ({...prevFormData, [prop]: e.target.value}))
-    }
-
-    const registerUser = async () => {
-        try {
-            createUserWithEmailAndPassword(auth, formData.email, formData.password)
-        } catch (error) {
-            console.log(error.message)
-        }
-    }
-
-    const login = async () => {
-        try {
-            signInWithEmailAndPassword(auth, formData.email, formData.password)
-        } catch (error) {
-            console.log(error.message)
-        }
-    }
-
-    const logout = async () => {
-        await signOut(auth)
     }
 
     return (
@@ -59,19 +38,23 @@ function Login() {
             <form
                 onSubmit={(e) => {
                     e.preventDefault()
-                    formData.mode === 'login' ? login() : registerUser()
+                    const {email, password} = formData
+                    setFormData(prevData => ({...prevData, email: '', password: ''}))
+                    formData.mode === 'login' ? login(email, password) 
+                                              : registerUser(email, password)
+                    
                 }}
             >
                 <h2>{formData.mode === 'login' ? 'Login' : 'Register'}</h2>
                 <input 
                     onChange={(e) => handleChange(e, 'email')}
-                    value={formData.registerEmail}
+                    value={formData.email}
                     placeholder="email" 
                     type='email'
                 />
                 <input 
                     onChange={(e) => handleChange(e, 'password')}
-                    value={formData.registerPassword}
+                    value={formData.password}
                     placeholder="password" 
                     type='password'
                 />
